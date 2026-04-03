@@ -51,8 +51,8 @@ export const MOOD_REASONS: Record<MoodKey, string[]> = {
   ],
 };
 
-export const MOCK_TITLES = [
-  { id: 1, title: "Crimson Horizon", year: 2024, rating: "TV-MA", duration: "2h 12m" },
+export const MOCK_TITLES: { id: number; title: string; year: number; rating: string; duration: string; poster?: string }[] = [
+  { id: 1, title: "Whiplash", year: 2014, rating: "R", duration: "1h 47m", poster: "whiplash" },
   { id: 2, title: "Velvet Silence", year: 2023, rating: "PG-13", duration: "1h 48m" },
   { id: 3, title: "Neon Drifters", year: 2024, rating: "R", duration: "1h 55m" },
   { id: 4, title: "The Last Garden", year: 2023, rating: "PG", duration: "1h 32m" },
