@@ -37,6 +37,8 @@ export default function SessionStarter() {
           How are you feeling tonight?
         </h1>
 
+        {/* Mood label */}
+        <p className="mb-3 text-center text-sm font-medium uppercase tracking-widest text-muted-foreground">What's your mood</p>
         {/* Mood buttons */}
         <div className="mb-8 flex flex-wrap justify-center gap-3">
           {MOODS.map((m) => {
