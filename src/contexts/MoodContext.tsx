@@ -36,6 +36,7 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setTime = useCallback((t: TimeKey) => setTimeState(t), []);
+  const setCompany = useCallback((c: CompanyKey) => setCompanyState(c), []);
 
   const resetAll = useCallback(() => {
     setMoodState(null);
