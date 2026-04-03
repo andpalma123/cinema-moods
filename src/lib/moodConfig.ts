@@ -17,6 +17,12 @@ export const TIMES: { key: TimeKey; label: string }[] = [
   { key: "90m", label: "90m+" },
 ];
 
+export const COMPANY: { key: CompanyKey; label: string }[] = [
+  { key: "alone", label: "Alone" },
+  { key: "family", label: "With Family" },
+  { key: "partner", label: "With My Partner" },
+];
+
 export const TIME_LABELS: Record<TimeKey, string> = {
   "30m": "30-Minute",
   "60m": "60-Minute",

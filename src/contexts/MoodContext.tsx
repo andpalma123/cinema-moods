@@ -49,7 +49,7 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <MoodContext.Provider
-      value={{ mood, time, step, previewTitle, setMood, setTime, setStep, setPreviewTitle, resetAll, moodHsl }}
+      value={{ mood, time, company, step, previewTitle, setMood, setTime, setCompany, setStep, setPreviewTitle, resetAll, moodHsl }}
     >
       {children}
     </MoodContext.Provider>
