@@ -4,7 +4,7 @@ import { MOODS, TIMES, COMPANY } from "@/lib/moodConfig";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export default function SessionStarter() {
-  const { mood, time, setMood, setTime, setStep } = useMood();
+  const { mood, time, company, setMood, setTime, setCompany, setStep } = useMood();
 
   return (
     <motion.div
