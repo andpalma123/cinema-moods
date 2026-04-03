@@ -2,6 +2,7 @@ import { Flame, Wind, Laugh, Sparkles, Compass } from "lucide-react";
 
 export type MoodKey = "angry" | "chill" | "laugh" | "inspired" | "escapism";
 export type TimeKey = "30m" | "60m" | "90m";
+export type CompanyKey = "alone" | "family" | "partner";
 
 export const MOODS: { key: MoodKey; label: string; icon: typeof Flame; hsl: string }[] = [
   { key: "angry", label: "Angry", icon: Flame, hsl: "0 65% 48%" },
@@ -15,6 +16,12 @@ export const TIMES: { key: TimeKey; label: string }[] = [
   { key: "30m", label: "Under 30m" },
   { key: "60m", label: "Around 60m" },
   { key: "90m", label: "90m+" },
+];
+
+export const COMPANY: { key: CompanyKey; label: string }[] = [
+  { key: "alone", label: "Alone" },
+  { key: "family", label: "With Family" },
+  { key: "partner", label: "With My Partner" },
 ];
 
 export const TIME_LABELS: Record<TimeKey, string> = {

@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useMood } from "@/contexts/MoodContext";
-import { MOODS, TIMES } from "@/lib/moodConfig";
+import { MOODS, TIMES, COMPANY } from "@/lib/moodConfig";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export default function SessionStarter() {
-  const { mood, time, setMood, setTime, setStep } = useMood();
+  const { mood, time, company, setMood, setTime, setCompany, setStep } = useMood();
 
   return (
     <motion.div
@@ -83,10 +83,32 @@ export default function SessionStarter() {
           })}
         </div>
 
+        {/* Company label */}
+        <p className="mb-3 text-center text-sm font-medium uppercase tracking-widest text-muted-foreground">Are you alone or do you have company</p>
+        {/* Company buttons */}
+        <div className="mb-10 flex justify-center gap-3">
+          {COMPANY.map((c) => {
+            const selected = company === c.key;
+            return (
+              <button
+                key={c.key}
+                onClick={() => setCompany(c.key)}
+                className={`tv-focus rounded-lg border-2 px-6 py-3 text-sm font-medium transition-colors ${
+                  selected
+                    ? "mood-accent-border mood-accent-glow bg-secondary text-foreground"
+                    : "border-border bg-secondary/50 text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {c.label}
+              </button>
+            );
+          })}
+        </div>
+
         {/* CTA */}
         <div className="flex justify-center">
           <button
-            disabled={!mood || !time}
+            disabled={!mood || !time || !company}
             onClick={() => setStep("curated")}
             className="tv-focus mood-accent-bg rounded-lg px-10 py-4 text-lg font-bold text-primary-foreground transition-all disabled:cursor-not-allowed disabled:opacity-30"
           >
