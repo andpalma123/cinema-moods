@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Play, VolumeX } from "lucide-react";
 import { useMood } from "@/contexts/MoodContext";
 import { MOCK_TITLES, MOOD_REASONS, MOODS } from "@/lib/moodConfig";
+import whiplashPoster from "@/assets/whiplash-poster.jpg";
+
+const POSTER_MAP: Record<string, string> = {
+  whiplash: whiplashPoster,
+};
 
 interface Props {
   titleId: number;
