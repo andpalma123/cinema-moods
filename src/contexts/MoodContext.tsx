@@ -41,6 +41,7 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
   const resetAll = useCallback(() => {
     setMoodState(null);
     setTimeState(null);
+    setCompanyState(null);
     setStep("starter");
     setPreviewTitle(null);
     setMoodAccent("0 72% 51%");
