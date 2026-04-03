@@ -1,6 +1,7 @@
 import { Flame, Wind, Laugh, Sparkles, Compass } from "lucide-react";
 
 export type MoodKey = "angry" | "chill" | "laugh" | "inspired" | "escapism";
+export type TimeKey = "30m" | "60m" | "90m";
 export type CompanyKey = "alone" | "family" | "partner";
 
 export const MOODS: { key: MoodKey; label: string; icon: typeof Flame; hsl: string }[] = [
