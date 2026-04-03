@@ -40,11 +40,11 @@ export default function TitleCard({ titleId }: Props) {
       transition={{ duration: 0.3 }}
     >
       {/* Poster */}
-      <div
-        className="aspect-[2/3] w-full"
-        style={{ background: posterGradient }}
-      >
-        <div className="flex h-full flex-col justify-end p-3">
+      <div className="aspect-[2/3] w-full relative" style={{ background: title.poster ? undefined : posterGradient }}>
+        {title.poster && POSTER_MAP[title.poster] && (
+          <img src={POSTER_MAP[title.poster]} alt={title.title} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+        )}
+        <div className="relative flex h-full flex-col justify-end p-3 bg-gradient-to-t from-background/80 to-transparent">
           <span className="text-xs font-semibold text-foreground/70">{title.rating}</span>
           <span className="text-sm font-bold text-foreground">{title.title}</span>
         </div>
