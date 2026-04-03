@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useMood } from "@/contexts/MoodContext";
-import { MOODS, TIMES } from "@/lib/moodConfig";
+import { MOODS, TIMES, COMPANY } from "@/lib/moodConfig";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export default function SessionStarter() {
