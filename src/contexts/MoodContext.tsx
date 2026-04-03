@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
-import { MoodKey, TimeKey, setMoodAccent, MOODS } from "@/lib/moodConfig";
+import { MoodKey, TimeKey, CompanyKey, setMoodAccent, MOODS } from "@/lib/moodConfig";
 
 type Step = "starter" | "curated" | "preview" | "validation";
 
