@@ -23,6 +23,7 @@ const MoodContext = createContext<MoodState | null>(null);
 export function MoodProvider({ children }: { children: React.ReactNode }) {
   const [mood, setMoodState] = useState<MoodKey | null>(null);
   const [time, setTimeState] = useState<TimeKey | null>(null);
+  const [company, setCompanyState] = useState<CompanyKey | null>(null);
   const [step, setStep] = useState<Step>("starter");
   const [previewTitle, setPreviewTitle] = useState<number | null>(null);
 
