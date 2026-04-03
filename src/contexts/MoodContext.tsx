@@ -6,10 +6,12 @@ type Step = "starter" | "curated" | "preview" | "validation";
 interface MoodState {
   mood: MoodKey | null;
   time: TimeKey | null;
+  company: CompanyKey | null;
   step: Step;
   previewTitle: number | null;
   setMood: (m: MoodKey) => void;
   setTime: (t: TimeKey) => void;
+  setCompany: (c: CompanyKey) => void;
   setStep: (s: Step) => void;
   setPreviewTitle: (id: number | null) => void;
   resetAll: () => void;
