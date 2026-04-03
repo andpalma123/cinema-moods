@@ -61,6 +61,8 @@ export default function SessionStarter() {
           })}
         </div>
 
+        {/* Time label */}
+        <p className="mb-3 text-center text-sm font-medium uppercase tracking-widest text-muted-foreground">How much time do you have</p>
         {/* Time buttons */}
         <div className="mb-10 flex justify-center gap-3">
           {TIMES.map((t) => {
