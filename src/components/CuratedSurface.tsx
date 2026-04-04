@@ -9,6 +9,8 @@ export default function CuratedSurface() {
   const moodLabel = moodData?.label ?? "Your";
   const timeLabel = time ? TIME_LABELS[time] : "";
 
+  const titles = MOCK_TITLES.slice(0, 10);
+
   return (
     <motion.div
       className="relative min-h-screen bg-background px-6 py-10 md:px-12 lg:px-20"
@@ -28,7 +30,7 @@ export default function CuratedSurface() {
 
       {/* Netflix-style top bar */}
       <div className="relative mb-8 flex items-center justify-between">
-        <h2 className="text-lg font-bold tracking-wide text-foreground md:text-xl">MOODFLIX</h2>
+        <h2 className="text-2xl font-extrabold tracking-tighter text-primary md:text-3xl">NETFLIX</h2>
         <button
           onClick={() => window.location.reload()}
           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -48,9 +50,9 @@ export default function CuratedSurface() {
         <span className="mood-accent-text">{moodLabel}</span> Mix
       </motion.h1>
 
-      {/* 12-card grid */}
+      {/* 10-card grid with bigger tiles */}
       <motion.div
-        className="relative grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+        className="relative grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
         initial="hidden"
         animate="visible"
         variants={{
@@ -58,7 +60,7 @@ export default function CuratedSurface() {
           visible: { transition: { staggerChildren: 0.06 } },
         }}
       >
-        {MOCK_TITLES.map((t) => (
+        {titles.map((t) => (
           <motion.div
             key={t.id}
             variants={{
