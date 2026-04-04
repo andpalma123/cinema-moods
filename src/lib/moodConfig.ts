@@ -58,19 +58,19 @@ export const MOOD_REASONS: Record<MoodKey, string[]> = {
   ],
 };
 
-export const MOCK_TITLES: { id: number; title: string; year: number; rating: string; duration: string; poster?: string }[] = [
-  { id: 1, title: "Whiplash", year: 2014, rating: "R", duration: "1h 47m", poster: "whiplash" },
-  { id: 2, title: "Velvet Silence", year: 2023, rating: "PG-13", duration: "1h 48m" },
-  { id: 3, title: "Neon Drifters", year: 2024, rating: "R", duration: "1h 55m" },
-  { id: 4, title: "The Last Garden", year: 2023, rating: "PG", duration: "1h 32m" },
-  { id: 5, title: "Obsidian Waves", year: 2024, rating: "TV-14", duration: "2h 05m" },
-  { id: 6, title: "Echo Chamber", year: 2023, rating: "R", duration: "1h 41m" },
-  { id: 7, title: "Solar Wind", year: 2024, rating: "PG-13", duration: "1h 58m" },
-  { id: 8, title: "Fractured Light", year: 2023, rating: "TV-MA", duration: "2h 20m" },
-  { id: 9, title: "Whispering Pines", year: 2024, rating: "PG", duration: "1h 29m" },
-  { id: 10, title: "Iron Bloom", year: 2023, rating: "R", duration: "1h 45m" },
-  { id: 11, title: "Phantom Meridian", year: 2024, rating: "TV-14", duration: "2h 01m" },
-  { id: 12, title: "Glass Frontier", year: 2023, rating: "PG-13", duration: "1h 37m" },
+export const MOCK_TITLES: { id: number; title: string; year: number; rating: string; duration: string; tag: string; poster?: string }[] = [
+  { id: 1, title: "Whiplash", year: 2014, rating: "R", duration: "1h 47m", tag: "Intense drama", poster: "whiplash" },
+  { id: 2, title: "Velvet Silence", year: 2023, rating: "PG-13", duration: "1h 48m", tag: "A must-watch" },
+  { id: 3, title: "Neon Drifters", year: 2024, rating: "R", duration: "1h 55m", tag: "Genre's favourite" },
+  { id: 4, title: "The Last Garden", year: 2023, rating: "PG", duration: "1h 32m", tag: "Sweet and short" },
+  { id: 5, title: "Obsidian Waves", year: 2024, rating: "TV-14", duration: "2h 05m", tag: "Hidden gem" },
+  { id: 6, title: "Echo Chamber", year: 2023, rating: "R", duration: "1h 41m", tag: "Cult classic" },
+  { id: 7, title: "Solar Wind", year: 2024, rating: "PG-13", duration: "1h 58m", tag: "Feel-good hit" },
+  { id: 8, title: "Fractured Light", year: 2023, rating: "TV-MA", duration: "2h 20m", tag: "Award winner" },
+  { id: 9, title: "Whispering Pines", year: 2024, rating: "PG", duration: "1h 29m", tag: "Cozy pick" },
+  { id: 10, title: "Iron Bloom", year: 2023, rating: "R", duration: "1h 45m", tag: "Edge-of-seat" },
+  { id: 11, title: "Phantom Meridian", year: 2024, rating: "TV-14", duration: "2h 01m", tag: "Mind-bending" },
+  { id: 12, title: "Glass Frontier", year: 2023, rating: "PG-13", duration: "1h 37m", tag: "Crowd pleaser" },
 ];
 
 export function setMoodAccent(hsl: string) {
