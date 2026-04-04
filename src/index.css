@@ -12,7 +12,7 @@
     --card-foreground: 0 0% 95%;
     --popover: 0 0% 7%;
     --popover-foreground: 0 0% 95%;
-    --primary: 0 72% 51%;
+    --primary: 357 83% 47%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 90%;
@@ -24,7 +24,7 @@
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 18%;
     --input: 0 0% 18%;
-    --ring: 0 72% 51%;
+    --ring: 357 83% 47%;
     --radius: 0.75rem;
 
     /* Mood accent colors */
@@ -35,8 +35,8 @@
     --mood-escapism: 160 50% 45%;
 
     /* Dynamic accent - set by JS */
-    --mood-accent: 0 72% 51%;
-    --mood-accent-glow: 0 72% 51% / 0.4;
+    --mood-accent: 357 83% 47%;
+    --mood-accent-glow: 357 83% 47% / 0.4;
 
     /* Glass */
     --glass-bg: 0 0% 8% / 0.75;
@@ -49,12 +49,12 @@
 
     --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 0 72% 51%;
+    --sidebar-primary: 357 83% 47%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 12%;
     --sidebar-accent-foreground: 0 0% 90%;
     --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 0 72% 51%;
+    --sidebar-ring: 357 83% 47%;
   }
 }
 
