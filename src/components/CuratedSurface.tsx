@@ -47,7 +47,7 @@ export default function CuratedSurface() {
         transition={{ delay: 0.3 }}
       >
         Your {timeLabel}{" "}
-        <span className="mood-accent-text">{moodLabel}</span> Mix
+        <span className="mood-accent-text">{moodLabel}</span> Curated Selection
       </motion.h1>
 
       {/* 10-card grid with bigger tiles */}
