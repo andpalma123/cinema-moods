@@ -55,7 +55,7 @@ export default function TitleCard({ titleId }: Props) {
           <img src={POSTER_MAP[title.poster]} alt={title.title} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
         )}
         <div className="relative flex h-full flex-col justify-end p-4 bg-gradient-to-t from-background/80 to-transparent">
-          <span className="text-xs font-semibold text-foreground/70">{title.rating}</span>
+          <span className="text-xs font-semibold mood-accent-text italic">{title.tag}</span>
           <span className="text-base font-bold text-foreground">{title.title}</span>
         </div>
       </div>
