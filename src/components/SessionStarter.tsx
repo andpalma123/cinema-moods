@@ -55,11 +55,30 @@ export default function SessionStarter() {
                 <button
                   key={m.key}
                   onClick={() => setMood(m.key)}
-                  className={`tv-focus flex flex-col items-center gap-2 rounded-xl border-2 px-5 py-4 text-sm font-medium transition-colors ${
+                  className={`tv-focus flex flex-col items-center gap-2 rounded-xl border-2 px-5 py-4 text-sm font-medium transition-all duration-200 ${
                     selected
                       ? "mood-accent-border mood-accent-glow bg-secondary text-foreground"
-                      : "border-border bg-secondary/50 text-muted-foreground hover:text-foreground"
+                      : "border-border bg-secondary/50 text-muted-foreground"
                   }`}
+                  style={
+                    selected
+                      ? {}
+                      : undefined
+                  }
+                  onMouseEnter={(e) => {
+                    if (!selected) {
+                      e.currentTarget.style.borderColor = `hsl(${m.hsl})`;
+                      e.currentTarget.style.color = `hsl(${m.hsl})`;
+                      e.currentTarget.style.boxShadow = `0 0 20px 4px hsl(${m.hsl} / 0.3)`;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!selected) {
+                      e.currentTarget.style.borderColor = '';
+                      e.currentTarget.style.color = '';
+                      e.currentTarget.style.boxShadow = '';
+                    }
+                  }}
                 >
                   <Icon size={28} />
                   {m.label}
