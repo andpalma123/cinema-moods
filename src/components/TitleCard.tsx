@@ -41,6 +41,14 @@ export default function TitleCard({ titleId }: Props) {
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.3 }}
     >
+      {/* Audio toggle - always on top right */}
+      <button
+        onClick={(e) => { e.stopPropagation(); setMuted(!muted); }}
+        className="absolute right-2 top-2 z-20 rounded-full bg-background/70 p-1.5 transition-colors hover:bg-background"
+      >
+        <AudioIcon size={16} className="text-muted-foreground" />
+      </button>
+
       {/* Poster */}
       <div className="aspect-[2/3] w-full relative" style={{ background: title.poster ? undefined : posterGradient }}>
         {title.poster && POSTER_MAP[title.poster] && (
@@ -56,39 +64,33 @@ export default function TitleCard({ titleId }: Props) {
       <AnimatePresence>
         {hovered && (
           <motion.div
-            className="absolute inset-0 flex flex-col justify-between bg-card/95 p-5"
+            className="absolute inset-0 flex flex-col bg-card/95 p-5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
             {/* Simulated "video" with shimmer */}
-            <div className="relative mb-3 h-28 overflow-hidden rounded-md">
+            <div className="relative mb-3 h-24 shrink-0 overflow-hidden rounded-md">
               <div className="shimmer-animation h-full w-full rounded-md" />
-              <button
-                onClick={(e) => { e.stopPropagation(); setMuted(!muted); }}
-                className="absolute right-2 top-2 rounded-full bg-background/70 p-1.5 transition-colors hover:bg-background"
-              >
-                <AudioIcon size={16} className="text-muted-foreground" />
-              </button>
             </div>
 
-            <div className="flex-1 min-h-0 overflow-hidden">
+            <div className="flex-1 overflow-y-auto min-h-0">
               <h3 className="text-sm font-bold text-foreground">{title.title}</h3>
               <p className="mt-1 text-xs text-muted-foreground">
                 {title.year} · {title.duration} · {title.rating}
               </p>
-              <p className="mt-2 text-xs leading-relaxed text-muted-foreground line-clamp-2">
-                A gripping story that keeps you on the edge of your seat with unexpected twists.
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                A gripping story that keeps you on the edge of your seat with unexpected twists and turns that redefine the genre.
               </p>
-              <p className="mt-2 rounded-md bg-secondary px-2 py-1.5 text-xs mood-accent-text line-clamp-2">
+              <p className="mt-2 rounded-md bg-secondary px-2 py-1.5 text-xs mood-accent-text">
                 Why this fits your mood: {reason}
               </p>
             </div>
 
             <button
               onClick={handlePlay}
-              className="mt-3 flex w-full items-center justify-center gap-2 rounded-md mood-accent-bg py-2.5 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
+              className="mt-3 flex w-full shrink-0 items-center justify-center gap-2 rounded-md mood-accent-bg py-2.5 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
             >
               <Play size={16} fill="currentColor" />
               Play
