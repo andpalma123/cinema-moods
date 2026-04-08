@@ -42,7 +42,7 @@ export default function LandingChoice() {
         </h1>
 
         <p className="mb-10 text-center text-lg text-muted-foreground">
-          How do you want to watch tonight?
+          Choose your watching experience
         </p>
 
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6">
@@ -55,7 +55,7 @@ export default function LandingChoice() {
             className="tv-focus group flex w-full max-w-xs items-center justify-center gap-3 rounded-xl border-2 border-border bg-secondary/60 px-8 py-5 text-lg font-semibold text-foreground transition-all duration-200 hover:border-muted-foreground hover:bg-secondary"
           >
             <Play size={24} className="text-muted-foreground transition-colors group-hover:text-foreground" />
-            Browse Now
+            Browse
           </button>
 
           {/* Curate My Night */}
