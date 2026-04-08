@@ -42,7 +42,7 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
     setMoodState(null);
     setTimeState(null);
     setCompanyState(null);
-    setStep("starter");
+    setStep("landing");
     setPreviewTitle(null);
     setMoodAccent("357 83% 47%");
   }, []);

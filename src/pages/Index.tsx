@@ -11,6 +11,7 @@ function MoodApp() {
   return (
     <div className="min-h-screen bg-background">
       <AnimatePresence mode="wait">
+        {step === "landing" && <LandingChoice key="landing" />}
         {step === "starter" && <SessionStarter key="starter" />}
         {step === "curated" && <CuratedSurface key="curated" />}
         {step === "validation" && <MoodValidation key="validation" />}
