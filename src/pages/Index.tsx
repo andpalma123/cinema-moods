@@ -1,5 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { MoodProvider, useMood } from "@/contexts/MoodContext";
+import LandingChoice from "@/components/LandingChoice";
 import SessionStarter from "@/components/SessionStarter";
 import CuratedSurface from "@/components/CuratedSurface";
 import MoodValidation from "@/components/MoodValidation";
