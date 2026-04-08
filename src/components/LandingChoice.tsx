@@ -50,7 +50,7 @@ export default function LandingChoice() {
           <button
             onClick={() => {
               /* For now, just go to curated as placeholder for classic UI */
-              setStep("curated");
+              setStep("browse");
             }}
             className="tv-focus group flex w-full max-w-xs items-center justify-center gap-3 rounded-xl border-2 border-border bg-secondary/60 px-8 py-5 text-lg font-semibold text-foreground transition-all duration-200 hover:border-muted-foreground hover:bg-secondary"
           >
