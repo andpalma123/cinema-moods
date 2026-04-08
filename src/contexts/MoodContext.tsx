@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import { MoodKey, TimeKey, CompanyKey, setMoodAccent, MOODS } from "@/lib/moodConfig";
 
-type Step = "starter" | "curated" | "preview" | "validation";
+type Step = "landing" | "starter" | "curated" | "preview" | "validation";
 
 interface MoodState {
   mood: MoodKey | null;
@@ -24,7 +24,7 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
   const [mood, setMoodState] = useState<MoodKey | null>(null);
   const [time, setTimeState] = useState<TimeKey | null>(null);
   const [company, setCompanyState] = useState<CompanyKey | null>(null);
-  const [step, setStep] = useState<Step>("starter");
+  const [step, setStep] = useState<Step>("landing");
   const [previewTitle, setPreviewTitle] = useState<number | null>(null);
 
   const moodHsl = mood ? MOODS.find((m) => m.key === mood)!.hsl : "0 72% 51%";
@@ -42,7 +42,7 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
     setMoodState(null);
     setTimeState(null);
     setCompanyState(null);
-    setStep("starter");
+    setStep("landing");
     setPreviewTitle(null);
     setMoodAccent("357 83% 47%");
   }, []);

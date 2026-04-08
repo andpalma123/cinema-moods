@@ -1,5 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { MoodProvider, useMood } from "@/contexts/MoodContext";
+import LandingChoice from "@/components/LandingChoice";
 import SessionStarter from "@/components/SessionStarter";
 import CuratedSurface from "@/components/CuratedSurface";
 import MoodValidation from "@/components/MoodValidation";
@@ -10,6 +11,7 @@ function MoodApp() {
   return (
     <div className="min-h-screen bg-background">
       <AnimatePresence mode="wait">
+        {step === "landing" && <LandingChoice key="landing" />}
         {step === "starter" && <SessionStarter key="starter" />}
         {step === "curated" && <CuratedSurface key="curated" />}
         {step === "validation" && <MoodValidation key="validation" />}
