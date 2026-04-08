@@ -55,7 +55,7 @@ export default function LandingChoice() {
             className="tv-focus group flex w-full max-w-xs items-center justify-center gap-3 rounded-xl border-2 border-border bg-secondary/60 px-8 py-5 text-lg font-semibold text-foreground transition-all duration-200 hover:border-muted-foreground hover:bg-secondary"
           >
             <Play size={24} className="text-muted-foreground transition-colors group-hover:text-foreground" />
-            Browse
+            Continue Watching
           </button>
 
           {/* Curate My Night */}
