@@ -24,7 +24,7 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
   const [mood, setMoodState] = useState<MoodKey | null>(null);
   const [time, setTimeState] = useState<TimeKey | null>(null);
   const [company, setCompanyState] = useState<CompanyKey | null>(null);
-  const [step, setStep] = useState<Step>("starter");
+  const [step, setStep] = useState<Step>("landing");
   const [previewTitle, setPreviewTitle] = useState<number | null>(null);
 
   const moodHsl = mood ? MOODS.find((m) => m.key === mood)!.hsl : "0 72% 51%";
