@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useMood } from "@/contexts/MoodContext";
 import { MOODS, TIMES, INTENT } from "@/lib/moodConfig";
+import { User } from "lucide-react";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -35,6 +36,15 @@ export default function SessionStarter() {
           className="absolute left-6 top-6 text-sm text-muted-foreground hover:text-foreground"
         >
           Back
+        </button>
+
+        {/* Account icon */}
+        <button
+          onClick={() => setStep("settings")}
+          className="absolute right-6 top-6 text-muted-foreground hover:text-foreground"
+          title="Account"
+        >
+          <User size={24} />
         </button>
 
         {/* Netflix logo */}

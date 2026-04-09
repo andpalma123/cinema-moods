@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useMood } from "@/contexts/MoodContext";
-import { Play, LayoutGrid, Sparkles, Settings } from "lucide-react";
+import { Play, LayoutGrid, Sparkles } from "lucide-react";
 
 const CARDS = [
   {
@@ -20,12 +20,6 @@ const CARDS = [
     label: "Curate My Night",
     description: "Answer three questions and get a personalised set",
     icon: Sparkles,
-  },
-  {
-    id: "settings" as const,
-    label: "Settings",
-    description: "Access your account and app preferences",
-    icon: Settings,
   },
 ];
 
@@ -56,7 +50,7 @@ export default function LandingChoice() {
           Choose your watching experience
         </p>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-5">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5">
           {CARDS.map((card) => {
             const Icon = card.icon;
             return (
