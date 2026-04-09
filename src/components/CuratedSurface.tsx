@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMood } from "@/contexts/MoodContext";
 import { MOODS, TIME_LABELS, MOCK_TITLES } from "@/lib/moodConfig";
 import TitleCard from "./TitleCard";
@@ -12,9 +12,17 @@ export default function CuratedSurface() {
   const timeLabel = time ? TIME_LABELS[time] : "";
 
   const [titles, setTitles] = useState(() => MOCK_TITLES.slice(0, 9));
+  const [rejected, setRejected] = useState<Set<number>>(new Set());
 
   const handleReject = (id: number) => {
-    setTitles((prev) => prev.filter((t) => t.id !== id));
+    const currentIds = new Set(titles.map((t) => t.id));
+    const replacement = MOCK_TITLES.find(
+      (t) => !currentIds.has(t.id) && !rejected.has(t.id) && t.id !== id
+    );
+    setRejected((prev) => new Set(prev).add(id));
+    if (replacement) {
+      setTitles((prev) => prev.map((t) => (t.id === id ? replacement : t)));
+    }
   };
 
   const today = new Date().toLocaleDateString("en-US", {
