@@ -3,6 +3,7 @@ import { MoodProvider, useMood } from "@/contexts/MoodContext";
 import LandingChoice from "@/components/LandingChoice";
 import SessionStarter from "@/components/SessionStarter";
 import ClassicBrowse from "@/components/ClassicBrowse";
+import ContinueWatching from "@/components/ContinueWatching";
 import CuratedSurface from "@/components/CuratedSurface";
 import MoodValidation from "@/components/MoodValidation";
 
@@ -15,6 +16,7 @@ function MoodApp() {
         {step === "landing" && <LandingChoice key="landing" />}
         {step === "starter" && <SessionStarter key="starter" />}
         {step === "browse" && <ClassicBrowse key="browse" />}
+        {step === "continue" && <ContinueWatching key="continue" />}
         {step === "curated" && <CuratedSurface key="curated" />}
         {step === "validation" && <MoodValidation key="validation" />}
       </AnimatePresence>

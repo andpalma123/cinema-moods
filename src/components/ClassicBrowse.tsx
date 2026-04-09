@@ -3,54 +3,101 @@ import { useMood } from "@/contexts/MoodContext";
 import { ChevronLeft, Play, Plus, ThumbsUp, ChevronRight, Info } from "lucide-react";
 import { useRef, useState } from "react";
 
-const ROWS = [
+const MOOD_ROOMS = [
   {
-    label: "Continue Watching",
+    label: "🔋 Recharge",
+    items: [
+      { title: "Chef's Table", year: 2023, match: "96%", duration: "45m", img: "https://picsum.photos/seed/ct/400/225" },
+      { title: "Our Planet", year: 2022, match: "98%", duration: "50m", img: "https://picsum.photos/seed/op/400/225" },
+      { title: "Headspace", year: 2023, match: "94%", duration: "20m", img: "https://picsum.photos/seed/hs/400/225" },
+      { title: "Abstract", year: 2021, match: "93%", duration: "45m", img: "https://picsum.photos/seed/abs/400/225" },
+      { title: "Midnight Diner", year: 2022, match: "95%", duration: "30m", img: "https://picsum.photos/seed/md/400/225" },
+      { title: "Salt Fat Acid Heat", year: 2020, match: "92%", duration: "50m", img: "https://picsum.photos/seed/sfah/400/225" },
+    ],
+  },
+  {
+    label: "🚀 Escape",
     items: [
       { title: "Stranger Things", year: 2022, match: "98%", duration: "S4:E7", img: "https://picsum.photos/seed/st/400/225" },
       { title: "The Witcher", year: 2023, match: "95%", duration: "S3:E2", img: "https://picsum.photos/seed/tw/400/225" },
       { title: "Dark", year: 2020, match: "97%", duration: "S2:E5", img: "https://picsum.photos/seed/dk/400/225" },
-      { title: "Ozark", year: 2022, match: "96%", duration: "S4:E10", img: "https://picsum.photos/seed/oz/400/225" },
-      { title: "Money Heist", year: 2021, match: "93%", duration: "S5:E3", img: "https://picsum.photos/seed/mh/400/225" },
-      { title: "Narcos", year: 2018, match: "92%", duration: "S3:E8", img: "https://picsum.photos/seed/nc/400/225" },
+      { title: "Shadow and Bone", year: 2023, match: "91%", duration: "S2:E4", img: "https://picsum.photos/seed/sb/400/225" },
+      { title: "Alice in Borderland", year: 2022, match: "93%", duration: "S2:E1", img: "https://picsum.photos/seed/aib/400/225" },
+      { title: "1899", year: 2022, match: "90%", duration: "S1:E5", img: "https://picsum.photos/seed/1899/400/225" },
     ],
   },
   {
-    label: "Trending Now",
+    label: "🪞 Reflect",
     items: [
-      { title: "Wednesday", year: 2024, match: "94%", duration: "1h 52m", img: "https://picsum.photos/seed/wed/400/225" },
-      { title: "Glass Onion", year: 2023, match: "91%", duration: "2h 19m", img: "https://picsum.photos/seed/go/400/225" },
-      { title: "All Quiet on the Western Front", year: 2023, match: "96%", duration: "2h 28m", img: "https://picsum.photos/seed/aq/400/225" },
-      { title: "The Adam Project", year: 2024, match: "88%", duration: "1h 46m", img: "https://picsum.photos/seed/ap/400/225" },
-      { title: "Enola Holmes 2", year: 2023, match: "90%", duration: "2h 9m", img: "https://picsum.photos/seed/eh/400/225" },
-      { title: "Don't Look Up", year: 2022, match: "87%", duration: "2h 18m", img: "https://picsum.photos/seed/dlu/400/225" },
-    ],
-  },
-  {
-    label: "Popular on Netflix",
-    items: [
-      { title: "Squid Game", year: 2021, match: "97%", duration: "S1:E9", img: "https://picsum.photos/seed/sg/400/225" },
-      { title: "Bridgerton", year: 2024, match: "89%", duration: "S3:E4", img: "https://picsum.photos/seed/bg/400/225" },
       { title: "The Crown", year: 2023, match: "95%", duration: "S6:E1", img: "https://picsum.photos/seed/tc/400/225" },
-      { title: "Lupin", year: 2023, match: "93%", duration: "S3:E2", img: "https://picsum.photos/seed/lp/400/225" },
-      { title: "You", year: 2024, match: "91%", duration: "S5:E1", img: "https://picsum.photos/seed/you/400/225" },
-      { title: "Cobra Kai", year: 2024, match: "90%", duration: "S6:E5", img: "https://picsum.photos/seed/ck/400/225" },
+      { title: "Black Mirror", year: 2024, match: "94%", duration: "S7:E3", img: "https://picsum.photos/seed/bm/400/225" },
+      { title: "Mindhunter", year: 2019, match: "97%", duration: "S2:E9", img: "https://picsum.photos/seed/mh2/400/225" },
+      { title: "The Social Dilemma", year: 2020, match: "92%", duration: "1h 34m", img: "https://picsum.photos/seed/tsd/400/225" },
+      { title: "Making a Murderer", year: 2018, match: "93%", duration: "S2:E10", img: "https://picsum.photos/seed/mam/400/225" },
+      { title: "Wild Wild Country", year: 2018, match: "91%", duration: "S1:E6", img: "https://picsum.photos/seed/wwc/400/225" },
     ],
   },
   {
-    label: "Top 10 Today",
+    label: "🤝 Connect",
     items: [
-      { title: "The Night Agent", year: 2024, match: "92%", duration: "S2:E1", img: "https://picsum.photos/seed/na/400/225" },
-      { title: "Beef", year: 2023, match: "96%", duration: "1h 30m", img: "https://picsum.photos/seed/bf/400/225" },
-      { title: "Black Mirror", year: 2024, match: "94%", duration: "S7:E3", img: "https://picsum.photos/seed/bm/400/225" },
-      { title: "Extraction 2", year: 2023, match: "88%", duration: "2h 2m", img: "https://picsum.photos/seed/ex/400/225" },
-      { title: "The Diplomat", year: 2024, match: "91%", duration: "S2:E1", img: "https://picsum.photos/seed/td/400/225" },
-      { title: "Manifest", year: 2023, match: "85%", duration: "S4:E10", img: "https://picsum.photos/seed/mf/400/225" },
+      { title: "Heartstopper", year: 2024, match: "96%", duration: "S3:E1", img: "https://picsum.photos/seed/hst/400/225" },
+      { title: "Sex Education", year: 2023, match: "94%", duration: "S4:E8", img: "https://picsum.photos/seed/se/400/225" },
+      { title: "Queer Eye", year: 2023, match: "93%", duration: "S8:E3", img: "https://picsum.photos/seed/qe/400/225" },
+      { title: "Never Have I Ever", year: 2023, match: "91%", duration: "S4:E10", img: "https://picsum.photos/seed/nhie/400/225" },
+      { title: "Atypical", year: 2021, match: "95%", duration: "S4:E10", img: "https://picsum.photos/seed/at/400/225" },
+      { title: "The Good Place", year: 2020, match: "96%", duration: "S4:E13", img: "https://picsum.photos/seed/tgp/400/225" },
     ],
   },
 ];
 
-function RowSlider({ row }: { row: typeof ROWS[0] }) {
+const GENRE_ROWS = [
+  {
+    label: "Action & Thriller",
+    items: [
+      { title: "Extraction 2", year: 2023, match: "88%", duration: "2h 2m", img: "https://picsum.photos/seed/ex/400/225" },
+      { title: "The Night Agent", year: 2024, match: "92%", duration: "S2:E1", img: "https://picsum.photos/seed/na/400/225" },
+      { title: "Money Heist", year: 2021, match: "93%", duration: "S5:E3", img: "https://picsum.photos/seed/mh/400/225" },
+      { title: "Ozark", year: 2022, match: "96%", duration: "S4:E10", img: "https://picsum.photos/seed/oz/400/225" },
+      { title: "Narcos", year: 2018, match: "92%", duration: "S3:E8", img: "https://picsum.photos/seed/nc/400/225" },
+      { title: "The Diplomat", year: 2024, match: "91%", duration: "S2:E1", img: "https://picsum.photos/seed/td/400/225" },
+    ],
+  },
+  {
+    label: "Drama",
+    items: [
+      { title: "The Crown", year: 2023, match: "95%", duration: "S6:E1", img: "https://picsum.photos/seed/tc2/400/225" },
+      { title: "Beef", year: 2023, match: "96%", duration: "1h 30m", img: "https://picsum.photos/seed/bf/400/225" },
+      { title: "All Quiet on the Western Front", year: 2023, match: "96%", duration: "2h 28m", img: "https://picsum.photos/seed/aq/400/225" },
+      { title: "Manifest", year: 2023, match: "85%", duration: "S4:E10", img: "https://picsum.photos/seed/mf/400/225" },
+      { title: "Squid Game", year: 2021, match: "97%", duration: "S1:E9", img: "https://picsum.photos/seed/sg/400/225" },
+      { title: "Lupin", year: 2023, match: "93%", duration: "S3:E2", img: "https://picsum.photos/seed/lp/400/225" },
+    ],
+  },
+  {
+    label: "Comedy",
+    items: [
+      { title: "Wednesday", year: 2024, match: "94%", duration: "1h 52m", img: "https://picsum.photos/seed/wed/400/225" },
+      { title: "Glass Onion", year: 2023, match: "91%", duration: "2h 19m", img: "https://picsum.photos/seed/go/400/225" },
+      { title: "Enola Holmes 2", year: 2023, match: "90%", duration: "2h 9m", img: "https://picsum.photos/seed/eh/400/225" },
+      { title: "Don't Look Up", year: 2022, match: "87%", duration: "2h 18m", img: "https://picsum.photos/seed/dlu/400/225" },
+      { title: "The Adam Project", year: 2024, match: "88%", duration: "1h 46m", img: "https://picsum.photos/seed/ap/400/225" },
+      { title: "Cobra Kai", year: 2024, match: "90%", duration: "S6:E5", img: "https://picsum.photos/seed/ck/400/225" },
+    ],
+  },
+  {
+    label: "Sci-Fi & Fantasy",
+    items: [
+      { title: "3 Body Problem", year: 2024, match: "93%", duration: "S1:E8", img: "https://picsum.photos/seed/3bp/400/225" },
+      { title: "Altered Carbon", year: 2020, match: "90%", duration: "S2:E8", img: "https://picsum.photos/seed/ac/400/225" },
+      { title: "Bridgerton", year: 2024, match: "89%", duration: "S3:E4", img: "https://picsum.photos/seed/bg/400/225" },
+      { title: "You", year: 2024, match: "91%", duration: "S5:E1", img: "https://picsum.photos/seed/you/400/225" },
+      { title: "Black Mirror", year: 2024, match: "94%", duration: "S7:E3", img: "https://picsum.photos/seed/bm2/400/225" },
+      { title: "Love, Death & Robots", year: 2022, match: "95%", duration: "S3:E9", img: "https://picsum.photos/seed/ldr/400/225" },
+    ],
+  },
+];
+
+function RowSlider({ row }: { row: { label: string; items: { title: string; year: number; match: string; duration: string; img: string }[] } }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState<number | null>(null);
 
@@ -68,10 +115,7 @@ function RowSlider({ row }: { row: typeof ROWS[0] }) {
         >
           <ChevronLeft className="text-foreground" size={28} />
         </button>
-        <div
-          ref={scrollRef}
-          className="scrollbar-hide flex gap-2 overflow-x-auto px-12"
-        >
+        <div ref={scrollRef} className="scrollbar-hide flex gap-2 overflow-x-auto px-12">
           {row.items.map((item, i) => (
             <div
               key={i}
@@ -80,17 +124,8 @@ function RowSlider({ row }: { row: typeof ROWS[0] }) {
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
             >
-              <div
-                className={`overflow-hidden rounded-md transition-all duration-300 ${
-                  hovered === i ? "scale-110 z-20 shadow-2xl" : ""
-                }`}
-              >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="h-[135px] w-full object-cover"
-                  loading="lazy"
-                />
+              <div className={`overflow-hidden rounded-md transition-all duration-300 ${hovered === i ? "scale-110 z-20 shadow-2xl" : ""}`}>
+                <img src={item.img} alt={item.title} className="h-[135px] w-full object-cover" loading="lazy" />
                 {hovered === i && (
                   <div className="absolute inset-x-0 bottom-0 rounded-b-md bg-card p-3">
                     <div className="mb-2 flex gap-2">
@@ -129,7 +164,7 @@ function RowSlider({ row }: { row: typeof ROWS[0] }) {
 
 export default function ClassicBrowse() {
   const { resetAll } = useMood();
-  const hero = ROWS[1].items[0];
+  const hero = GENRE_ROWS[0].items[2]; // Money Heist as hero
 
   return (
     <motion.div
@@ -141,12 +176,7 @@ export default function ClassicBrowse() {
     >
       {/* Nav bar */}
       <nav className="fixed top-0 z-40 flex w-full items-center gap-6 bg-gradient-to-b from-background/90 to-transparent px-12 py-4">
-        <h1
-          className="text-2xl font-extrabold tracking-tighter text-primary"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
-          NETFLIX
-        </h1>
+        <h1 className="text-2xl font-extrabold tracking-tighter text-primary">NETFLIX</h1>
         <div className="flex gap-5 text-sm text-muted-foreground">
           <span className="font-semibold text-foreground">Home</span>
           <span className="cursor-pointer hover:text-foreground">TV Shows</span>
@@ -154,25 +184,18 @@ export default function ClassicBrowse() {
           <span className="cursor-pointer hover:text-foreground">New & Popular</span>
           <span className="cursor-pointer hover:text-foreground">My List</span>
         </div>
-        <button
-          onClick={resetAll}
-          className="ml-auto text-sm text-muted-foreground hover:text-foreground"
-        >
+        <button onClick={resetAll} className="ml-auto text-sm text-muted-foreground hover:text-foreground">
           ← Back
         </button>
       </nav>
 
       {/* Hero banner */}
       <div className="relative h-[56vh] w-full">
-        <img
-          src={hero.img}
-          alt={hero.title}
-          className="h-full w-full object-cover"
-        />
+        <img src={hero.img} alt={hero.title} className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <div className="absolute bottom-16 left-12 max-w-lg">
           <h2 className="mb-3 text-5xl font-black text-foreground">{hero.title}</h2>
-          <p className="mb-5 text-sm text-muted-foreground leading-relaxed">
+          <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
             A gripping story that will keep you on the edge of your seat from start to finish. Critically acclaimed and universally loved.
           </p>
           <div className="flex gap-3">
@@ -186,10 +209,18 @@ export default function ClassicBrowse() {
         </div>
       </div>
 
-      {/* Rows */}
-      <div className="-mt-12 relative z-10 pb-16">
-        {ROWS.map((row, i) => (
-          <RowSlider key={i} row={row} />
+      {/* Mood Rooms first */}
+      <div className="-mt-12 relative z-10 pb-4">
+        <h2 className="mb-4 pl-12 text-2xl font-bold text-foreground">Mood Rooms</h2>
+        {MOOD_ROOMS.map((row, i) => (
+          <RowSlider key={`mood-${i}`} row={row} />
+        ))}
+      </div>
+
+      {/* Genre rows */}
+      <div className="relative z-10 pb-16">
+        {GENRE_ROWS.map((row, i) => (
+          <RowSlider key={`genre-${i}`} row={row} />
         ))}
       </div>
     </motion.div>
