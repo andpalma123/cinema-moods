@@ -11,7 +11,7 @@ export default function CuratedSurface() {
   const moodLabel = moodData?.label ?? "Your";
   const timeLabel = time ? TIME_LABELS[time] : "";
 
-  const [titles, setTitles] = useState(() => MOCK_TITLES.slice(0, 12));
+  const [titles, setTitles] = useState(() => MOCK_TITLES.slice(0, 9));
 
   const handleReject = (id: number) => {
     setTitles((prev) => prev.filter((t) => t.id !== id));
@@ -68,7 +68,7 @@ export default function CuratedSurface() {
 
       {/* Numbered card grid with reject buttons */}
       <motion.div
-        className="relative grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+        className="relative grid grid-cols-3 gap-5"
         initial="hidden"
         animate="visible"
         variants={{
