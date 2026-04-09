@@ -2,12 +2,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useMood } from "@/contexts/MoodContext";
 import {
   ChevronLeft, Play, Plus, ThumbsUp, ChevronRight, Info,
-  SlidersHorizontal, X, Users, Clock, Sparkles, MessageSquare, Heart, List,
+  SlidersHorizontal, X, Users, Clock, MessageSquare, Heart, List, Sparkles,
 } from "lucide-react";
 import { useRef, useState, useMemo, useCallback } from "react";
 
 /* ------------------------------------------------------------------ */
-/*  ENRICHED DATA — every item now carries genre / director / charType */
+/*  DATA                                                               */
 /* ------------------------------------------------------------------ */
 
 interface BrowseItem {
@@ -19,9 +19,7 @@ interface BrowseItem {
   genre: string;
   director: string;
   charType: string;
-  /** discovery badges */
   badge?: "new" | "expiring";
-  /** days left for expiring titles */
   daysLeft?: number;
 }
 
@@ -29,7 +27,7 @@ const DISCOVERY_NEW: BrowseItem[] = [
   { title: "Ripple Effect", year: 2026, match: "94%", duration: "1h 58m", img: "https://picsum.photos/seed/rip/400/225", genre: "Drama", director: "Greta Gerwig", charType: "Anti-hero", badge: "new" },
   { title: "Neon Divide", year: 2026, match: "91%", duration: "2h 05m", img: "https://picsum.photos/seed/nd/400/225", genre: "Sci-Fi", director: "Denis Villeneuve", charType: "Visionary", badge: "new" },
   { title: "Soft Landing", year: 2026, match: "89%", duration: "1h 42m", img: "https://picsum.photos/seed/sl/400/225", genre: "Comedy", director: "Taika Waititi", charType: "Underdog", badge: "new" },
-  { title: "The Quiet Hours", year: 2026, match: "93%", duration: "1h 50m", img: "https://picsum.photos/seed/tqh/400/225", genre: "Drama", director: "Chloé Zhao", charType: "Loner", badge: "new" },
+  { title: "The Quiet Hours", year: 2026, match: "93%", duration: "1h 50m", img: "https://picsum.photos/seed/tqh/400/225", genre: "Drama", director: "Chloe Zhao", charType: "Loner", badge: "new" },
   { title: "Circuit Breaker", year: 2026, match: "90%", duration: "2h 10m", img: "https://picsum.photos/seed/cb2/400/225", genre: "Action", director: "Christopher Nolan", charType: "Genius", badge: "new" },
   { title: "Bloom Season", year: 2026, match: "88%", duration: "1h 35m", img: "https://picsum.photos/seed/bs2/400/225", genre: "Romance", director: "Greta Gerwig", charType: "Dreamer", badge: "new" },
 ];
@@ -45,7 +43,7 @@ const DISCOVERY_EXPIRING: BrowseItem[] = [
 
 const MOOD_ROOMS: { label: string; items: BrowseItem[] }[] = [
   {
-    label: "🔋 Recharge",
+    label: "Recharge",
     items: [
       { title: "Chef's Table", year: 2023, match: "96%", duration: "45m", img: "https://picsum.photos/seed/ct/400/225", genre: "Documentary", director: "David Gelb", charType: "Visionary" },
       { title: "Our Planet", year: 2022, match: "98%", duration: "50m", img: "https://picsum.photos/seed/op/400/225", genre: "Documentary", director: "Alastair Fothergill", charType: "Narrator" },
@@ -56,7 +54,7 @@ const MOOD_ROOMS: { label: string; items: BrowseItem[] }[] = [
     ],
   },
   {
-    label: "🚀 Escape",
+    label: "Escape",
     items: [
       { title: "Stranger Things", year: 2022, match: "98%", duration: "S4:E7", img: "https://picsum.photos/seed/st/400/225", genre: "Sci-Fi", director: "The Duffer Brothers", charType: "Underdog" },
       { title: "The Witcher", year: 2023, match: "95%", duration: "S3:E2", img: "https://picsum.photos/seed/tw/400/225", genre: "Fantasy", director: "Lauren S. Hissrich", charType: "Anti-hero" },
@@ -67,7 +65,7 @@ const MOOD_ROOMS: { label: string; items: BrowseItem[] }[] = [
     ],
   },
   {
-    label: "🪞 Reflect",
+    label: "Reflect",
     items: [
       { title: "The Crown", year: 2023, match: "95%", duration: "S6:E1", img: "https://picsum.photos/seed/tc/400/225", genre: "Drama", director: "Peter Morgan", charType: "Leader" },
       { title: "Black Mirror", year: 2024, match: "94%", duration: "S7:E3", img: "https://picsum.photos/seed/bm/400/225", genre: "Sci-Fi", director: "Charlie Brooker", charType: "Everyman" },
@@ -78,7 +76,7 @@ const MOOD_ROOMS: { label: string; items: BrowseItem[] }[] = [
     ],
   },
   {
-    label: "🤝 Connect",
+    label: "Connect",
     items: [
       { title: "Heartstopper", year: 2024, match: "96%", duration: "S3:E1", img: "https://picsum.photos/seed/hst/400/225", genre: "Romance", director: "Euros Lyn", charType: "Underdog" },
       { title: "Sex Education", year: 2023, match: "94%", duration: "S4:E8", img: "https://picsum.photos/seed/se/400/225", genre: "Comedy", director: "Ben Taylor", charType: "Underdog" },
@@ -96,7 +94,7 @@ const GENRE_ROWS: { label: string; items: BrowseItem[] }[] = [
     items: [
       { title: "Extraction 2", year: 2023, match: "88%", duration: "2h 2m", img: "https://picsum.photos/seed/ex/400/225", genre: "Action", director: "Sam Hargrave", charType: "Anti-hero" },
       { title: "The Night Agent", year: 2024, match: "92%", duration: "S2:E1", img: "https://picsum.photos/seed/na/400/225", genre: "Thriller", director: "Shawn Ryan", charType: "Underdog" },
-      { title: "Money Heist", year: 2021, match: "93%", duration: "S5:E3", img: "https://picsum.photos/seed/mh/400/225", genre: "Action", director: "Álex Pina", charType: "Genius" },
+      { title: "Money Heist", year: 2021, match: "93%", duration: "S5:E3", img: "https://picsum.photos/seed/mh/400/225", genre: "Action", director: "Alex Pina", charType: "Genius" },
       { title: "Ozark", year: 2022, match: "96%", duration: "S4:E10", img: "https://picsum.photos/seed/oz/400/225", genre: "Thriller", director: "Jason Bateman", charType: "Anti-hero" },
       { title: "Narcos", year: 2018, match: "92%", duration: "S3:E8", img: "https://picsum.photos/seed/nc/400/225", genre: "Action", director: "Chris Brancato", charType: "Anti-hero" },
       { title: "The Diplomat", year: 2024, match: "91%", duration: "S2:E1", img: "https://picsum.photos/seed/td/400/225", genre: "Thriller", director: "Debora Cahn", charType: "Leader" },
@@ -135,6 +133,28 @@ const GENRE_ROWS: { label: string; items: BrowseItem[] }[] = [
       { title: "Love, Death & Robots", year: 2022, match: "95%", duration: "S3:E9", img: "https://picsum.photos/seed/ldr/400/225", genre: "Sci-Fi", director: "Tim Miller", charType: "Visionary" },
     ],
   },
+  {
+    label: "Horror",
+    items: [
+      { title: "The Haunting of Hill House", year: 2018, match: "96%", duration: "S1:E10", img: "https://picsum.photos/seed/hh/400/225", genre: "Horror", director: "Mike Flanagan", charType: "Everyman" },
+      { title: "Midnight Mass", year: 2021, match: "94%", duration: "S1:E7", img: "https://picsum.photos/seed/mm/400/225", genre: "Horror", director: "Mike Flanagan", charType: "Loner" },
+      { title: "Fear Street", year: 2021, match: "88%", duration: "1h 47m", img: "https://picsum.photos/seed/fs/400/225", genre: "Horror", director: "Leigh Janiak", charType: "Underdog" },
+      { title: "The Platform", year: 2019, match: "91%", duration: "1h 34m", img: "https://picsum.photos/seed/tp/400/225", genre: "Horror", director: "Galder Gaztelu-Urrutia", charType: "Everyman" },
+      { title: "Apostle", year: 2018, match: "85%", duration: "2h 10m", img: "https://picsum.photos/seed/apo/400/225", genre: "Horror", director: "Gareth Evans", charType: "Anti-hero" },
+      { title: "His House", year: 2020, match: "92%", duration: "1h 33m", img: "https://picsum.photos/seed/hhs/400/225", genre: "Horror", director: "Remi Weekes", charType: "Everyman" },
+    ],
+  },
+  {
+    label: "Documentary",
+    items: [
+      { title: "The Social Dilemma", year: 2020, match: "92%", duration: "1h 34m", img: "https://picsum.photos/seed/tsd2/400/225", genre: "Documentary", director: "Jeff Orlowski", charType: "Narrator" },
+      { title: "My Octopus Teacher", year: 2020, match: "95%", duration: "1h 25m", img: "https://picsum.photos/seed/mot/400/225", genre: "Documentary", director: "Pippa Ehrlich", charType: "Guide" },
+      { title: "American Factory", year: 2019, match: "90%", duration: "1h 50m", img: "https://picsum.photos/seed/af/400/225", genre: "Documentary", director: "Steven Bognar", charType: "Everyman" },
+      { title: "The Tinder Swindler", year: 2022, match: "87%", duration: "1h 54m", img: "https://picsum.photos/seed/ts/400/225", genre: "Documentary", director: "Felicity Morris", charType: "Anti-hero" },
+      { title: "Seaspiracy", year: 2021, match: "88%", duration: "1h 29m", img: "https://picsum.photos/seed/ss/400/225", genre: "Documentary", director: "Ali Tabrizi", charType: "Narrator" },
+      { title: "Fyre", year: 2019, match: "91%", duration: "1h 37m", img: "https://picsum.photos/seed/fyre/400/225", genre: "Documentary", director: "Chris Smith", charType: "Anti-hero" },
+    ],
+  },
 ];
 
 /* Collect all unique values for filters */
@@ -144,37 +164,39 @@ const ALL_ITEMS: BrowseItem[] = [
   ...GENRE_ROWS.flatMap((r) => r.items),
 ];
 const UNIQUE_GENRES = [...new Set(ALL_ITEMS.map((i) => i.genre))].sort();
-const UNIQUE_DIRECTORS = [...new Set(ALL_ITEMS.map((i) => i.director))].sort();
 const UNIQUE_CHAR_TYPES = [...new Set(ALL_ITEMS.map((i) => i.charType))].sort();
 const UNIQUE_YEARS = [...new Set(ALL_ITEMS.map((i) => i.year))].sort((a, b) => b - a);
+const MIN_YEAR = Math.min(...UNIQUE_YEARS);
+const MAX_YEAR = Math.max(...UNIQUE_YEARS);
 
 /* ------------------------------------------------------------------ */
 /*  FILTER TYPES                                                      */
 /* ------------------------------------------------------------------ */
 interface Filters {
   genres: string[];
-  directors: string[];
+  directorSearch: string;
   charTypes: string[];
-  years: number[];
+  yearFrom: number;
+  yearTo: number;
 }
-const EMPTY_FILTERS: Filters = { genres: [], directors: [], charTypes: [], years: [] };
+const EMPTY_FILTERS: Filters = { genres: [], directorSearch: "", charTypes: [], yearFrom: MIN_YEAR, yearTo: MAX_YEAR };
 
 function matchesFilters(item: BrowseItem, filters: Filters) {
   if (filters.genres.length && !filters.genres.includes(item.genre)) return false;
-  if (filters.directors.length && !filters.directors.includes(item.director)) return false;
+  if (filters.directorSearch && !item.director.toLowerCase().includes(filters.directorSearch.toLowerCase())) return false;
   if (filters.charTypes.length && !filters.charTypes.includes(item.charType)) return false;
-  if (filters.years.length && !filters.years.includes(item.year)) return false;
+  if (item.year < filters.yearFrom || item.year > filters.yearTo) return false;
   return true;
 }
 
 const hasActiveFilters = (f: Filters) =>
-  f.genres.length > 0 || f.directors.length > 0 || f.charTypes.length > 0 || f.years.length > 0;
+  f.genres.length > 0 || f.directorSearch !== "" || f.charTypes.length > 0 || f.yearFrom !== MIN_YEAR || f.yearTo !== MAX_YEAR;
 
 /* ------------------------------------------------------------------ */
 /*  COMPONENTS                                                        */
 /* ------------------------------------------------------------------ */
 
-function Badge({ type, daysLeft }: { type: "new" | "expiring"; daysLeft?: number }) {
+function DiscoveryBadge({ type, daysLeft }: { type: "new" | "expiring"; daysLeft?: number }) {
   if (type === "new") {
     return (
       <span className="absolute left-2 top-2 z-10 rounded bg-primary px-2 py-0.5 text-[10px] font-bold uppercase text-primary-foreground">
@@ -234,8 +256,13 @@ function RowSlider({
                   hovered === i ? "scale-110 z-20 shadow-2xl" : ""
                 }`}
               >
-                {item.badge && <Badge type={item.badge} daysLeft={item.daysLeft} />}
+                {item.badge && <DiscoveryBadge type={item.badge} daysLeft={item.daysLeft} />}
                 <img src={item.img} alt={item.title} className="h-[135px] w-full object-cover" loading="lazy" />
+                {/* Title and year always visible */}
+                <div className="bg-card/90 px-2 py-1.5">
+                  <p className="truncate text-xs font-semibold text-foreground">{item.title}</p>
+                  <p className="text-[10px] text-muted-foreground">{item.year}</p>
+                </div>
                 {hovered === i && (
                   <div className="absolute inset-x-0 bottom-0 rounded-b-md bg-card p-3">
                     <div className="mb-2 flex gap-2">
@@ -283,9 +310,9 @@ function MultiSelect({
   toggle,
 }: {
   label: string;
-  options: (string | number)[];
-  selected: (string | number)[];
-  toggle: (v: string | number) => void;
+  options: string[];
+  selected: string[];
+  toggle: (v: string) => void;
 }) {
   return (
     <div className="mb-4">
@@ -295,7 +322,7 @@ function MultiSelect({
           const active = selected.includes(o);
           return (
             <button
-              key={String(o)}
+              key={o}
               onClick={() => toggle(o)}
               className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                 active
@@ -321,13 +348,22 @@ function FilterPanel({
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   onClose: () => void;
 }) {
-  const toggle = useCallback(
-    (key: keyof Filters, val: string | number) => {
-      setFilters((prev) => {
-        const arr = prev[key] as (string | number)[];
-        const next = arr.includes(val) ? arr.filter((v) => v !== val) : [...arr, val];
-        return { ...prev, [key]: next };
-      });
+  const toggleGenre = useCallback(
+    (val: string) => {
+      setFilters((prev) => ({
+        ...prev,
+        genres: prev.genres.includes(val) ? prev.genres.filter((v) => v !== val) : [...prev.genres, val],
+      }));
+    },
+    [setFilters]
+  );
+
+  const toggleCharType = useCallback(
+    (val: string) => {
+      setFilters((prev) => ({
+        ...prev,
+        charTypes: prev.charTypes.includes(val) ? prev.charTypes.filter((v) => v !== val) : [...prev.charTypes, val],
+      }));
     },
     [setFilters]
   );
@@ -347,10 +383,44 @@ function FilterPanel({
         </button>
       </div>
 
-      <MultiSelect label="Genre" options={UNIQUE_GENRES} selected={filters.genres} toggle={(v) => toggle("genres", v)} />
-      <MultiSelect label="Character Type" options={UNIQUE_CHAR_TYPES} selected={filters.charTypes} toggle={(v) => toggle("charTypes", v)} />
-      <MultiSelect label="Director" options={UNIQUE_DIRECTORS} selected={filters.directors} toggle={(v) => toggle("directors", v)} />
-      <MultiSelect label="Release Year" options={UNIQUE_YEARS} selected={filters.years} toggle={(v) => toggle("years", v)} />
+      <MultiSelect label="Genre" options={UNIQUE_GENRES} selected={filters.genres} toggle={toggleGenre} />
+      <MultiSelect label="Character Type" options={UNIQUE_CHAR_TYPES} selected={filters.charTypes} toggle={toggleCharType} />
+
+      {/* Director - text input */}
+      <div className="mb-4">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Director</p>
+        <input
+          type="text"
+          placeholder="Search director..."
+          value={filters.directorSearch}
+          onChange={(e) => setFilters((prev) => ({ ...prev, directorSearch: e.target.value }))}
+          className="w-full rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+        />
+      </div>
+
+      {/* Release Year - range */}
+      <div className="mb-4">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Release Year</p>
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            min={MIN_YEAR}
+            max={MAX_YEAR}
+            value={filters.yearFrom}
+            onChange={(e) => setFilters((prev) => ({ ...prev, yearFrom: Number(e.target.value) }))}
+            className="w-20 rounded-lg border border-border bg-secondary px-2 py-1.5 text-sm text-foreground focus:border-primary focus:outline-none"
+          />
+          <span className="text-xs text-muted-foreground">to</span>
+          <input
+            type="number"
+            min={MIN_YEAR}
+            max={MAX_YEAR}
+            value={filters.yearTo}
+            onChange={(e) => setFilters((prev) => ({ ...prev, yearTo: Number(e.target.value) }))}
+            className="w-20 rounded-lg border border-border bg-secondary px-2 py-1.5 text-sm text-foreground focus:border-primary focus:outline-none"
+          />
+        </div>
+      </div>
 
       {hasActiveFilters(filters) && (
         <button
@@ -369,10 +439,10 @@ function FilterPanel({
 /* ------------------------------------------------------------------ */
 
 const MOCK_CLUBS = [
-  { name: "Sci-Fi Collective", members: 12400, icon: "🚀" },
-  { name: "True Crime Addicts", members: 8900, icon: "🔍" },
-  { name: "K-Drama Lovers", members: 15200, icon: "🇰🇷" },
-  { name: "Documentary Deep Dive", members: 6700, icon: "🎬" },
+  { name: "Sci-Fi Collective", members: 12400 },
+  { name: "True Crime Addicts", members: 8900 },
+  { name: "K-Drama Lovers", members: 15200 },
+  { name: "Documentary Deep Dive", members: 6700 },
 ];
 
 const MOCK_LISTS = [
@@ -438,7 +508,6 @@ function CommunityPanel({ onClose }: { onClose: () => void }) {
           <div className="space-y-3">
             {MOCK_CLUBS.map((club) => (
               <div key={club.name} className="flex items-center gap-3 rounded-xl bg-secondary/60 p-3">
-                <span className="text-2xl">{club.icon}</span>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-foreground">{club.name}</p>
                   <p className="text-xs text-muted-foreground">{club.members.toLocaleString()} members</p>
@@ -457,7 +526,7 @@ function CommunityPanel({ onClose }: { onClose: () => void }) {
               <div key={list.name} className="rounded-xl bg-secondary/60 p-3">
                 <p className="text-sm font-semibold text-foreground">{list.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  by @{list.author} · {list.count} titles
+                  by @{list.author} - {list.count} titles
                 </p>
               </div>
             ))}
@@ -472,7 +541,7 @@ function CommunityPanel({ onClose }: { onClose: () => void }) {
                   <p className="flex-1 text-sm font-semibold text-foreground">{thread.title}</p>
                   {thread.hot && (
                     <span className="shrink-0 rounded bg-primary/20 px-1.5 py-0.5 text-[10px] font-bold text-primary">
-                      🔥 HOT
+                      HOT
                     </span>
                   )}
                 </div>
@@ -507,6 +576,51 @@ function CommunityPanel({ onClose }: { onClose: () => void }) {
 }
 
 /* ------------------------------------------------------------------ */
+/*  FILTER CHIPS                                                      */
+/* ------------------------------------------------------------------ */
+
+function FilterChips({ filters, setFilters }: { filters: Filters; setFilters: React.Dispatch<React.SetStateAction<Filters>> }) {
+  const chips: { label: string; remove: () => void }[] = [];
+
+  filters.genres.forEach((g) =>
+    chips.push({ label: g, remove: () => setFilters((p) => ({ ...p, genres: p.genres.filter((x) => x !== g) })) })
+  );
+  filters.charTypes.forEach((c) =>
+    chips.push({ label: c, remove: () => setFilters((p) => ({ ...p, charTypes: p.charTypes.filter((x) => x !== c) })) })
+  );
+  if (filters.directorSearch) {
+    chips.push({ label: `Director: ${filters.directorSearch}`, remove: () => setFilters((p) => ({ ...p, directorSearch: "" })) });
+  }
+  if (filters.yearFrom !== MIN_YEAR || filters.yearTo !== MAX_YEAR) {
+    chips.push({ label: `${filters.yearFrom}-${filters.yearTo}`, remove: () => setFilters((p) => ({ ...p, yearFrom: MIN_YEAR, yearTo: MAX_YEAR })) });
+  }
+
+  if (chips.length === 0) return null;
+
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {chips.map((chip) => (
+        <span
+          key={chip.label}
+          className="flex items-center gap-1 rounded-full bg-primary/20 px-2.5 py-1 text-[10px] font-medium text-primary"
+        >
+          {chip.label}
+          <button onClick={chip.remove} className="hover:text-primary-foreground">
+            <X size={10} />
+          </button>
+        </span>
+      ))}
+      <button
+        onClick={() => setFilters(EMPTY_FILTERS)}
+        className="rounded-full px-2.5 py-1 text-[10px] font-medium text-destructive hover:bg-destructive/10"
+      >
+        Clear All
+      </button>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  MAIN BROWSE                                                       */
 /* ------------------------------------------------------------------ */
 
@@ -518,12 +632,9 @@ export default function ClassicBrowse() {
   const [showFilters, setShowFilters] = useState(false);
   const [showCommunity, setShowCommunity] = useState(false);
 
-  const activeCount =
-    filters.genres.length + filters.directors.length + filters.charTypes.length + filters.years.length;
-
   return (
     <motion.div
-      className="min-h-screen bg-background"
+      className="min-h-screen bg-[#141414]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -536,7 +647,6 @@ export default function ClassicBrowse() {
       <AnimatePresence>
         {showCommunity && <CommunityPanel onClose={() => setShowCommunity(false)} />}
       </AnimatePresence>
-      {/* Overlay backdrop */}
       <AnimatePresence>
         {(showFilters || showCommunity) && (
           <motion.div
@@ -553,7 +663,7 @@ export default function ClassicBrowse() {
       </AnimatePresence>
 
       {/* Nav bar */}
-      <nav className="fixed top-0 z-30 flex w-full items-center gap-4 bg-gradient-to-b from-background/90 to-transparent px-8 py-4 md:px-12">
+      <nav className="fixed top-0 z-30 flex w-full items-center gap-4 bg-gradient-to-b from-[#141414]/90 to-transparent px-8 py-4 md:px-12">
         <h1 className="text-2xl font-extrabold tracking-tighter text-primary">NETFLIX</h1>
         <div className="hidden gap-5 text-sm text-muted-foreground md:flex">
           <span className="font-semibold text-foreground">Home</span>
@@ -564,7 +674,6 @@ export default function ClassicBrowse() {
         </div>
 
         <div className="ml-auto flex items-center gap-3">
-          {/* Filter toggle */}
           <button
             onClick={() => {
               setShowFilters((v) => !v);
@@ -576,14 +685,8 @@ export default function ClassicBrowse() {
           >
             <SlidersHorizontal size={14} />
             Filters
-            {activeCount > 0 && (
-              <span className="ml-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary-foreground text-[10px] font-bold text-primary">
-                {activeCount}
-              </span>
-            )}
           </button>
 
-          {/* Community toggle */}
           <button
             onClick={() => {
               setShowCommunity((v) => !v);
@@ -598,15 +701,22 @@ export default function ClassicBrowse() {
           </button>
 
           <button onClick={resetAll} className="text-sm text-muted-foreground hover:text-foreground">
-            ← Back
+            Back
           </button>
         </div>
       </nav>
 
+      {/* Active filter chips */}
+      {hasActiveFilters(filters) && (
+        <div className="fixed top-14 z-20 w-full px-8 py-2 md:px-12">
+          <FilterChips filters={filters} setFilters={setFilters} />
+        </div>
+      )}
+
       {/* Hero banner */}
       <div className="relative h-[56vh] w-full">
         <img src={hero.img} alt={hero.title} className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/40 to-transparent" />
         <div className="absolute bottom-16 left-8 max-w-lg md:left-12">
           <h2 className="mb-3 text-5xl font-black text-foreground">{hero.title}</h2>
           <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
@@ -625,9 +735,9 @@ export default function ClassicBrowse() {
 
       {/* Content rows */}
       <div className="-mt-12 relative z-10 pb-16">
-        {/* Discovery rows */}
-        <RowSlider row={{ label: "🆕 New Releases", items: DISCOVERY_NEW }} filters={filters} />
-        <RowSlider row={{ label: "⏳ Last Chance to Watch", items: DISCOVERY_EXPIRING }} filters={filters} />
+        {/* Discovery rows above mood rooms */}
+        <RowSlider row={{ label: "New Releases", items: DISCOVERY_NEW }} filters={filters} />
+        <RowSlider row={{ label: "Last Chance to Watch", items: DISCOVERY_EXPIRING }} filters={filters} />
 
         {/* Mood Rooms */}
         <h2 className="mb-4 pl-12 text-2xl font-bold text-foreground">Mood Rooms</h2>
@@ -635,7 +745,7 @@ export default function ClassicBrowse() {
           <RowSlider key={`mood-${i}`} row={row} filters={filters} />
         ))}
 
-        {/* Genre rows */}
+        {/* Genre rows - 6 rows */}
         {GENRE_ROWS.map((row, i) => (
           <RowSlider key={`genre-${i}`} row={row} filters={filters} />
         ))}
