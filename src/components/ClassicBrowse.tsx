@@ -164,7 +164,7 @@ const ALL_ITEMS: BrowseItem[] = [
   ...GENRE_ROWS.flatMap((r) => r.items),
 ];
 const UNIQUE_GENRES = [...new Set(ALL_ITEMS.map((i) => i.genre))].sort();
-const UNIQUE_CHAR_TYPES = [...new Set(ALL_ITEMS.map((i) => i.charType))].sort();
+// UNIQUE_CHAR_TYPES removed — character is now text search
 const UNIQUE_YEARS = [...new Set(ALL_ITEMS.map((i) => i.year))].sort((a, b) => b - a);
 const MIN_YEAR = Math.min(...UNIQUE_YEARS);
 const MAX_YEAR = Math.max(...UNIQUE_YEARS);
