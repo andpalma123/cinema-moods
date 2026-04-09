@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Volume2, VolumeX } from "lucide-react";
 import { useMood } from "@/contexts/MoodContext";
-import { MOCK_TITLES, MOOD_REASONS, MOODS } from "@/lib/moodConfig";
+import { MOCK_TITLES, MOODS } from "@/lib/moodConfig";
 import whiplashPoster from "@/assets/whiplash-poster.jpg";
 
 const POSTER_MAP: Record<string, string> = {
@@ -18,8 +18,6 @@ export default function TitleCard({ titleId }: Props) {
   const [hovered, setHovered] = useState(false);
   const [muted, setMuted] = useState(true);
   const title = MOCK_TITLES.find((t) => t.id === titleId)!;
-  const reasons = mood ? MOOD_REASONS[mood] : [];
-  const reason = reasons[titleId % reasons.length];
 
   const handlePlay = () => {
     setPreviewTitle(titleId);
@@ -34,7 +32,7 @@ export default function TitleCard({ titleId }: Props) {
 
   return (
     <motion.div
-      className="tv-focus relative cursor-pointer overflow-hidden rounded-lg border-2 border-border"
+      className="relative cursor-pointer overflow-hidden rounded-lg border-2 border-border"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       layout
@@ -70,7 +68,7 @@ export default function TitleCard({ titleId }: Props) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            {/* Simulated "video" with shimmer */}
+            {/* Simulated silent preview */}
             <div className="relative mb-3 h-24 shrink-0 overflow-hidden rounded-md">
               <div className="shimmer-animation h-full w-full rounded-md" />
             </div>
@@ -78,19 +76,26 @@ export default function TitleCard({ titleId }: Props) {
             <div className="flex-1 overflow-y-auto min-h-0">
               <h3 className="text-sm font-bold text-foreground">{title.title}</h3>
               <p className="mt-1 text-xs text-muted-foreground">
-                {title.year} · {title.duration} · {title.rating}
+                {title.year} - {title.duration} - {title.genre}
               </p>
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                A gripping story that keeps you on the edge of your seat with unexpected twists and turns that redefine the genre.
+                {title.synopsis}
               </p>
               <p className="mt-2 rounded-md bg-secondary px-2 py-1.5 text-xs mood-accent-text">
-                Why this fits your mood: {reason}
+                {title.moodJustification}
               </p>
             </div>
 
+            {/* Hear the Story button */}
+            <button
+              className="mt-2 w-full shrink-0 rounded-md border border-border py-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            >
+              Hear the Story
+            </button>
+
             <button
               onClick={handlePlay}
-              className="mt-3 flex w-full shrink-0 items-center justify-center gap-2 rounded-md mood-accent-bg py-2.5 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
+              className="mt-2 flex w-full shrink-0 items-center justify-center gap-2 rounded-md bg-primary py-2.5 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
             >
               <Play size={16} fill="currentColor" />
               Play

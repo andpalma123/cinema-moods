@@ -1,17 +1,17 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
-import { MoodKey, TimeKey, CompanyKey, setMoodAccent, MOODS } from "@/lib/moodConfig";
+import { MoodKey, TimeKey, IntentKey, setMoodAccent, MOODS } from "@/lib/moodConfig";
 
-type Step = "landing" | "starter" | "browse" | "continue" | "curated" | "preview" | "validation";
+type Step = "landing" | "starter" | "browse" | "continue" | "curated" | "preview" | "validation" | "settings" | "profile";
 
 interface MoodState {
   mood: MoodKey | null;
   time: TimeKey | null;
-  company: CompanyKey | null;
+  intent: IntentKey | null;
   step: Step;
   previewTitle: number | null;
   setMood: (m: MoodKey) => void;
   setTime: (t: TimeKey) => void;
-  setCompany: (c: CompanyKey) => void;
+  setIntent: (c: IntentKey) => void;
   setStep: (s: Step) => void;
   setPreviewTitle: (id: number | null) => void;
   resetAll: () => void;
@@ -23,7 +23,7 @@ const MoodContext = createContext<MoodState | null>(null);
 export function MoodProvider({ children }: { children: React.ReactNode }) {
   const [mood, setMoodState] = useState<MoodKey | null>(null);
   const [time, setTimeState] = useState<TimeKey | null>(null);
-  const [company, setCompanyState] = useState<CompanyKey | null>(null);
+  const [intent, setIntentState] = useState<IntentKey | null>(null);
   const [step, setStep] = useState<Step>("landing");
   const [previewTitle, setPreviewTitle] = useState<number | null>(null);
 
@@ -36,12 +36,12 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setTime = useCallback((t: TimeKey) => setTimeState(t), []);
-  const setCompany = useCallback((c: CompanyKey) => setCompanyState(c), []);
+  const setIntent = useCallback((c: IntentKey) => setIntentState(c), []);
 
   const resetAll = useCallback(() => {
     setMoodState(null);
     setTimeState(null);
-    setCompanyState(null);
+    setIntentState(null);
     setStep("landing");
     setPreviewTitle(null);
     setMoodAccent("357 83% 47%");
@@ -49,7 +49,7 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <MoodContext.Provider
-      value={{ mood, time, company, step, previewTitle, setMood, setTime, setCompany, setStep, setPreviewTitle, resetAll, moodHsl }}
+      value={{ mood, time, intent, step, previewTitle, setMood, setTime, setIntent, setStep, setPreviewTitle, resetAll, moodHsl }}
     >
       {children}
     </MoodContext.Provider>
