@@ -6,6 +6,8 @@ import ClassicBrowse from "@/components/ClassicBrowse";
 import ContinueWatching from "@/components/ContinueWatching";
 import CuratedSurface from "@/components/CuratedSurface";
 import MoodValidation from "@/components/MoodValidation";
+import SettingsScreen from "@/components/SettingsScreen";
+import ProfileScreen from "@/components/ProfileScreen";
 
 function MoodApp() {
   const { step } = useMood();
@@ -19,6 +21,8 @@ function MoodApp() {
         {step === "continue" && <ContinueWatching key="continue" />}
         {step === "curated" && <CuratedSurface key="curated" />}
         {step === "validation" && <MoodValidation key="validation" />}
+        {step === "settings" && <SettingsScreen key="settings" />}
+        {step === "profile" && <ProfileScreen key="profile" />}
       </AnimatePresence>
     </div>
   );
