@@ -171,24 +171,24 @@ export default function TitleCard({ titleId }: Props) {
             </div>
 
             {/* CTAs: Add to List, Share, Watch Now */}
-            <div className="mt-2 flex shrink-0 gap-2">
+            <div className="mt-2 flex shrink-0 gap-1.5">
               <button
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-border py-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className="flex flex-1 items-center justify-center gap-1 rounded-md border border-border py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
               >
-                <Plus size={14} />
+                <Plus size={10} />
                 List
               </button>
               <button
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-border py-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className="flex flex-1 items-center justify-center gap-1 rounded-md border border-border py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
               >
-                <Share2 size={14} />
+                <Share2 size={10} />
                 Share
               </button>
               <button
                 onClick={handlePlay}
-                className="flex flex-[2] items-center justify-center gap-2 rounded-md bg-primary py-2.5 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
+                className="flex flex-[2] items-center justify-center gap-1.5 rounded-md bg-primary py-1.5 text-xs font-bold text-primary-foreground transition-opacity hover:opacity-90"
               >
-                <Play size={16} fill="currentColor" />
+                <Play size={12} fill="currentColor" />
                 Watch Now
               </button>
             </div>
