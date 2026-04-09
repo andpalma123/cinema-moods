@@ -175,22 +175,22 @@ const MAX_YEAR = Math.max(...UNIQUE_YEARS);
 interface Filters {
   genres: string[];
   directorSearch: string;
-  charTypes: string[];
+  characterSearch: string;
   yearFrom: number;
   yearTo: number;
 }
-const EMPTY_FILTERS: Filters = { genres: [], directorSearch: "", charTypes: [], yearFrom: MIN_YEAR, yearTo: MAX_YEAR };
+const EMPTY_FILTERS: Filters = { genres: [], directorSearch: "", characterSearch: "", yearFrom: MIN_YEAR, yearTo: MAX_YEAR };
 
 function matchesFilters(item: BrowseItem, filters: Filters) {
   if (filters.genres.length && !filters.genres.includes(item.genre)) return false;
   if (filters.directorSearch && !item.director.toLowerCase().includes(filters.directorSearch.toLowerCase())) return false;
-  if (filters.charTypes.length && !filters.charTypes.includes(item.charType)) return false;
+  if (filters.characterSearch && !item.charType.toLowerCase().includes(filters.characterSearch.toLowerCase())) return false;
   if (item.year < filters.yearFrom || item.year > filters.yearTo) return false;
   return true;
 }
 
 const hasActiveFilters = (f: Filters) =>
-  f.genres.length > 0 || f.directorSearch !== "" || f.charTypes.length > 0 || f.yearFrom !== MIN_YEAR || f.yearTo !== MAX_YEAR;
+  f.genres.length > 0 || f.directorSearch !== "" || f.characterSearch !== "" || f.yearFrom !== MIN_YEAR || f.yearTo !== MAX_YEAR;
 
 /* ------------------------------------------------------------------ */
 /*  COMPONENTS                                                        */
@@ -358,19 +358,9 @@ function FilterPanel({
     [setFilters]
   );
 
-  const toggleCharType = useCallback(
-    (val: string) => {
-      setFilters((prev) => ({
-        ...prev,
-        charTypes: prev.charTypes.includes(val) ? prev.charTypes.filter((v) => v !== val) : [...prev.charTypes, val],
-      }));
-    },
-    [setFilters]
-  );
-
   return (
     <motion.div
-      className="fixed inset-y-0 left-0 z-50 w-80 overflow-y-auto border-r border-border bg-card p-6 shadow-2xl"
+      className="fixed inset-y-0 left-0 z-50 w-80 overflow-y-auto border-r border-border bg-[#141414] p-6 shadow-2xl"
       initial={{ x: -320 }}
       animate={{ x: 0 }}
       exit={{ x: -320 }}
@@ -384,7 +374,18 @@ function FilterPanel({
       </div>
 
       <MultiSelect label="Genre" options={UNIQUE_GENRES} selected={filters.genres} toggle={toggleGenre} />
-      <MultiSelect label="Character Type" options={UNIQUE_CHAR_TYPES} selected={filters.charTypes} toggle={toggleCharType} />
+
+      {/* Main Character - text search */}
+      <div className="mb-4">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Main Character</p>
+        <input
+          type="text"
+          placeholder="Search character type..."
+          value={filters.characterSearch}
+          onChange={(e) => setFilters((prev) => ({ ...prev, characterSearch: e.target.value }))}
+          className="w-full rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+        />
+      </div>
 
       {/* Director - text input */}
       <div className="mb-4">
@@ -585,9 +586,9 @@ function FilterChips({ filters, setFilters }: { filters: Filters; setFilters: Re
   filters.genres.forEach((g) =>
     chips.push({ label: g, remove: () => setFilters((p) => ({ ...p, genres: p.genres.filter((x) => x !== g) })) })
   );
-  filters.charTypes.forEach((c) =>
-    chips.push({ label: c, remove: () => setFilters((p) => ({ ...p, charTypes: p.charTypes.filter((x) => x !== c) })) })
-  );
+  if (filters.characterSearch) {
+    chips.push({ label: `Character: ${filters.characterSearch}`, remove: () => setFilters((p) => ({ ...p, characterSearch: "" })) });
+  }
   if (filters.directorSearch) {
     chips.push({ label: `Director: ${filters.directorSearch}`, remove: () => setFilters((p) => ({ ...p, directorSearch: "" })) });
   }
@@ -735,20 +736,37 @@ export default function ClassicBrowse() {
 
       {/* Content rows */}
       <div className="-mt-12 relative z-10 pb-16">
-        {/* Discovery rows above mood rooms */}
-        <RowSlider row={{ label: "New Releases", items: DISCOVERY_NEW }} filters={filters} />
-        <RowSlider row={{ label: "Last Chance to Watch", items: DISCOVERY_EXPIRING }} filters={filters} />
+        {/* Quick Discovery */}
+        <div className="mb-6 border-l-4 border-teal-500 bg-teal-500/5 py-4">
+          <h2 className="mb-4 pl-12 text-2xl font-bold text-foreground flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-teal-500" />
+            Quick Discovery
+          </h2>
+          <RowSlider row={{ label: "New Releases", items: DISCOVERY_NEW }} filters={filters} />
+          <RowSlider row={{ label: "Last Chance to Watch", items: DISCOVERY_EXPIRING }} filters={filters} />
+        </div>
 
         {/* Mood Rooms */}
-        <h2 className="mb-4 pl-12 text-2xl font-bold text-foreground">Mood Rooms</h2>
-        {MOOD_ROOMS.map((row, i) => (
-          <RowSlider key={`mood-${i}`} row={row} filters={filters} />
-        ))}
+        <div className="mb-6 border-l-4 border-purple-500 bg-purple-500/5 py-4">
+          <h2 className="mb-4 pl-12 text-2xl font-bold text-foreground flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-purple-500" />
+            Mood Rooms
+          </h2>
+          {MOOD_ROOMS.map((row, i) => (
+            <RowSlider key={`mood-${i}`} row={row} filters={filters} />
+          ))}
+        </div>
 
-        {/* Genre rows - 6 rows */}
-        {GENRE_ROWS.map((row, i) => (
-          <RowSlider key={`genre-${i}`} row={row} filters={filters} />
-        ))}
+        {/* Genre Rooms */}
+        <div className="mb-6 border-l-4 border-amber-500 bg-amber-500/5 py-4">
+          <h2 className="mb-4 pl-12 text-2xl font-bold text-foreground flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-amber-500" />
+            Genre Rooms
+          </h2>
+          {GENRE_ROWS.map((row, i) => (
+            <RowSlider key={`genre-${i}`} row={row} filters={filters} />
+          ))}
+        </div>
       </div>
     </motion.div>
   );
