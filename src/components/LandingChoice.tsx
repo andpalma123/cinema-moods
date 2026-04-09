@@ -46,7 +46,15 @@ export default function LandingChoice() {
           className="absolute right-0 top-0 text-muted-foreground hover:text-foreground"
           title="Account"
         >
-          <User size={24} />
+          <div className="relative">
+            <User size={24} />
+            {/* Gold loyalty tier badge */}
+            <span
+              className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full border-2 border-[#141414]"
+              style={{ backgroundColor: "#FFD700" }}
+              title="Gold Tier"
+            />
+          </div>
         </button>
         <h1
           className="mb-4 text-center text-4xl font-extrabold tracking-tighter text-primary md:text-5xl"
