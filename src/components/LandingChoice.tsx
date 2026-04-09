@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useMood } from "@/contexts/MoodContext";
-import { Play, LayoutGrid, Sparkles } from "lucide-react";
+import { Play, LayoutGrid, Sparkles, User } from "lucide-react";
 
 const CARDS = [
   {
@@ -40,6 +40,14 @@ export default function LandingChoice() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5, type: "spring", stiffness: 120 }}
       >
+        {/* Account icon */}
+        <button
+          onClick={() => setStep("settings")}
+          className="absolute right-0 top-0 text-muted-foreground hover:text-foreground"
+          title="Account"
+        >
+          <User size={24} />
+        </button>
         <h1
           className="mb-4 text-center text-4xl font-extrabold tracking-tighter text-primary md:text-5xl"
         >
