@@ -1,19 +1,32 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useMood } from "@/contexts/MoodContext";
 import { MOODS, TIME_LABELS, MOCK_TITLES } from "@/lib/moodConfig";
 import TitleCard from "./TitleCard";
+import { X } from "lucide-react";
 
 export default function CuratedSurface() {
-  const { mood, time } = useMood();
+  const { mood, time, resetAll } = useMood();
   const moodData = MOODS.find((m) => m.key === mood);
   const moodLabel = moodData?.label ?? "Your";
   const timeLabel = time ? TIME_LABELS[time] : "";
 
-  const titles = MOCK_TITLES.slice(0, 10);
+  const [titles, setTitles] = useState(() => MOCK_TITLES.slice(0, 12));
+
+  const handleReject = (id: number) => {
+    setTitles((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <motion.div
-      className="relative min-h-screen bg-background px-6 py-10 md:px-12 lg:px-20"
+      className="relative min-h-screen bg-[#141414] px-6 py-10 md:px-12 lg:px-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -28,16 +41,19 @@ export default function CuratedSurface() {
         }}
       />
 
-      {/* Netflix-style top bar */}
-      <div className="relative mb-8 flex items-center justify-between">
+      {/* Top bar */}
+      <div className="relative mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-extrabold tracking-tighter text-primary md:text-3xl">NETFLIX</h2>
         <button
-          onClick={() => window.location.reload()}
+          onClick={resetAll}
           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           Change Mood
         </button>
       </div>
+
+      {/* Session date label */}
+      <p className="relative mb-6 text-sm text-muted-foreground">{today}</p>
 
       {/* Section header */}
       <motion.h1
@@ -50,7 +66,7 @@ export default function CuratedSurface() {
         <span className="mood-accent-text">{moodLabel}</span> Curated Selection
       </motion.h1>
 
-      {/* 10-card grid with bigger tiles */}
+      {/* Numbered card grid with reject buttons */}
       <motion.div
         className="relative grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
         initial="hidden"
@@ -60,14 +76,27 @@ export default function CuratedSurface() {
           visible: { transition: { staggerChildren: 0.06 } },
         }}
       >
-        {titles.map((t) => (
+        {titles.map((t, index) => (
           <motion.div
             key={t.id}
+            className="relative"
             variants={{
               hidden: { opacity: 0, y: 30 },
               visible: { opacity: 1, y: 0 },
             }}
           >
+            {/* Sequential number */}
+            <div className="absolute -left-1 -top-1 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              {index + 1}
+            </div>
+            {/* Reject button */}
+            <button
+              onClick={() => handleReject(t.id)}
+              className="absolute -right-1 -top-1 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-destructive hover:text-destructive-foreground"
+              title="Reject this title"
+            >
+              <X size={12} />
+            </button>
             <TitleCard titleId={t.id} />
           </motion.div>
         ))}
