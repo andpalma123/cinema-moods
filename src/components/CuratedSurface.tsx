@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMood } from "@/contexts/MoodContext";
 import { MOODS, TIME_LABELS, MOCK_TITLES } from "@/lib/moodConfig";
 import TitleCard from "./TitleCard";
@@ -12,9 +12,17 @@ export default function CuratedSurface() {
   const timeLabel = time ? TIME_LABELS[time] : "";
 
   const [titles, setTitles] = useState(() => MOCK_TITLES.slice(0, 9));
+  const [rejected, setRejected] = useState<Set<number>>(new Set());
 
   const handleReject = (id: number) => {
-    setTitles((prev) => prev.filter((t) => t.id !== id));
+    const currentIds = new Set(titles.map((t) => t.id));
+    const replacement = MOCK_TITLES.find(
+      (t) => !currentIds.has(t.id) && !rejected.has(t.id) && t.id !== id
+    );
+    setRejected((prev) => new Set(prev).add(id));
+    if (replacement) {
+      setTitles((prev) => prev.map((t) => (t.id === id ? replacement : t)));
+    }
   };
 
   const today = new Date().toLocaleDateString("en-US", {
@@ -76,30 +84,33 @@ export default function CuratedSurface() {
           visible: { transition: { staggerChildren: 0.06 } },
         }}
       >
-        {titles.map((t, index) => (
-          <motion.div
-            key={t.id}
-            className="relative"
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0 },
-            }}
-          >
-            {/* Sequential number */}
-            <div className="absolute -left-1 -top-1 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-              {index + 1}
-            </div>
-            {/* Reject button */}
-            <button
-              onClick={() => handleReject(t.id)}
-              className="absolute -right-1 -top-1 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-destructive hover:text-destructive-foreground"
-              title="Reject this title"
+        <AnimatePresence mode="popLayout">
+          {titles.map((t, index) => (
+            <motion.div
+              key={t.id}
+              className="relative"
+              layout
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
             >
-              <X size={12} />
-            </button>
-            <TitleCard titleId={t.id} />
-          </motion.div>
-        ))}
+              {/* Sequential number */}
+              <div className="absolute -left-1 -top-1 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                {index + 1}
+              </div>
+              {/* Reject button */}
+              <button
+                onClick={() => handleReject(t.id)}
+                className="absolute -right-1 -top-1 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-destructive hover:text-destructive-foreground"
+                title="Reject this title"
+              >
+                <X size={12} />
+              </button>
+              <TitleCard titleId={t.id} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </motion.div>
     </motion.div>
   );
